@@ -1,6 +1,7 @@
 import styled from "styled-components";
 // mui button import
 import Button from "@mui/material/Button";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 const TableWrapper = styled.div`
     width: 90%;
@@ -30,6 +31,28 @@ const ButtonWrapper = styled.div`
 `;
 
 const Table = () => {
+    // loader state
+    const [loading, setLoading] = useState(false);
+    // employees state
+    const [employees, setEmployees] = useState([]);
+    // fetch employees
+    useEffect(() => {
+        setLoading(true);
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+        const route = process.env.NEXT_PUBLIC_GET_EMPLOYEES || "";
+        const endpoint = baseUrl + route;
+        fetch(endpoint)
+            .then((res) => res.json())
+            .then((data) => {
+                setEmployees(data);
+                setLoading(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setLoading(false);
+            });
+    }, []);
+    console.log(employees);
     return (
         <TableWrapper>
             <TabelTitle>
