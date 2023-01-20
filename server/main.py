@@ -5,6 +5,7 @@ from configs.settings import Settings
 from db.base import  engine
 from db import model
 from api import utils
+from fastapi.middleware.cors import CORSMiddleware
 
 model.Base.metadata.create_all(bind=engine)
 
@@ -44,6 +45,14 @@ def create_app():
     '''
     settings=Settings()
     app = FastAPI(title=settings.BACKEND_APP_TITLE, version=settings.BACKEND_APP_VERSION)
+    # allow all origins for cors
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
     include_routers(app)
     return app
 
