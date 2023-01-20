@@ -11,7 +11,7 @@ class Employee(Base):
     __tablename__ = "employee"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    first_name = Column(String, unique=True, index=True)
+    first_name = Column(String)
     last_name = Column(String)
     department_id = Column(Integer, ForeignKey("department.id"))
 
