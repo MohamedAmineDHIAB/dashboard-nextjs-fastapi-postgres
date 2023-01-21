@@ -13,6 +13,11 @@ export const GlobalStyle = createGlobalStyle`
         font-family:'Fredoka One', cursive;
         font-size: 2rem;
     }
+    h2 {
+        letter-spacing: 0.05rem;
+        font-family:'Fredoka One', cursive;
+        font-size: 1.4rem;
+    }
     span,a {
         letter-spacing: 0.05rem;
         font-size : 0.8rem;
@@ -36,5 +41,7 @@ export const Body = styled.div`
     justify-content: center;
     position: relative;
     min-height: 100vh;
+    padding: 100px 0;
+    box-sizing: border-box;
     background: white;
 `;

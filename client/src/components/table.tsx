@@ -1,69 +1,39 @@
-import styled from "styled-components";
-// mui button import
-import Button from "@mui/material/Button";
-import { useState, useEffect } from "react";
-import Link from "next/link";
-const TableWrapper = styled.div`
-    width: 90%;
-    background-color: white;
-    max-width: 1000px;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    padding: 20px;
-    padding-bottom: 50px;
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1), 0 -5px 5px rgba(0, 0, 0, 0.1),
-        5px 0 5px rgba(0, 0, 0, 0.1), -5px 0 5px rgba(0, 0, 0, 0.1);
-`;
-const TabelTitle = styled.div`
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    box-sizing: border-box;
-    padding: 20px;
-`;
-const ButtonWrapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    position: relative;
-`;
+import React from "react";
 
-const Table = () => {
-    // loader state
-    const [loading, setLoading] = useState(false);
-    // employees state
-    const [employees, setEmployees] = useState([]);
-    // fetch employees
-    useEffect(() => {
-        setLoading(true);
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
-        const route = process.env.NEXT_PUBLIC_GET_EMPLOYEES || "";
-        const endpoint = baseUrl + route;
-        fetch(endpoint)
-            .then((res) => res.json())
-            .then((data) => {
-                setEmployees(data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                setLoading(false);
-            });
-    }, []);
-    console.log(employees);
+// data type for table, array of employee objects
+type TableProps = {
+    employees: Array<{
+        id: number;
+        first_name: string;
+        last_name: string;
+        department_id: number;
+    }>;
+    departments: Array<{
+        id: number;
+        department_name: string;
+    }>;
+};
+
+const Table = ({ employees, departments }: TableProps) => {
     return (
-        <TableWrapper>
-            <TabelTitle>
-                <h1>Employees Table</h1>
-            </TabelTitle>
-            <ButtonWrapper>
-                <Link href="/add_employee">
-                    <Button variant="contained">Add Employee</Button>
-                </Link>
-            </ButtonWrapper>
-        </TableWrapper>
+        <div>
+            {/* render the elements inside data */}
+            {employees.map((employee) => (
+                <div key={employee.id}>
+                    <p>{employee.first_name}</p>
+                    <p>{employee.last_name}</p>
+                    {/* the department name corresponding to department_id in departments */}
+                    <p>
+                        {
+                            departments.find(
+                                (department) =>
+                                    department.id === employee.department_id
+                            )?.department_name
+                        }
+                    </p>
+                </div>
+            ))}
+        </div>
     );
 };
 
