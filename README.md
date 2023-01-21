@@ -19,6 +19,12 @@ git clone https://github.com/MohamedAmineDHIAB/employee-dashboard-fullstack-app.
 docker-compose up --build
 ```
 
+3. You can find the app by opening:
+
+```
+http://localhost:3000
+```
+
 ## Stop everything and delete volumes :wastebasket: :red_circle:
 
 ```
