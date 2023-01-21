@@ -5,6 +5,8 @@ import styled from "styled-components";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useRouter } from "next/router";
+import Swal from "sweetalert2";
+
 import {
     Button,
     FormControl,
@@ -37,8 +39,24 @@ const Form = () => {
             last_name: lastName,
             department_id: departmentId,
         };
-        await addEmployee(employee_payload, setLoadingPost);
-        router.push("/");
+        const res = await addEmployee(employee_payload, setLoadingPost);
+        if (res?.status === 200) {
+            Swal.fire({
+                title: "Success!",
+                text: "The employee was added successfully.",
+                icon: "success",
+                confirmButtonText: "OK",
+            }).then(() => {
+                router.push("/");
+            });
+        } else {
+            Swal.fire({
+                title: "Error!",
+                text: "An error occured, please try again.",
+                icon: "error",
+                confirmButtonText: "Try Again",
+            });
+        }
     };
 
     React.useEffect(() => {

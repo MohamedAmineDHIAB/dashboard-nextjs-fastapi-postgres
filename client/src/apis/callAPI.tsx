@@ -46,8 +46,9 @@ export const addEmployee = async (
     const employeesRoute = process.env.NEXT_PUBLIC_POST_EMPLOYEE || "";
     const employeesEndpoint = baseUrl + employeesRoute;
     try {
-        await axios.post(employeesEndpoint, employee);
+        const res = await axios.post(employeesEndpoint, employee);
         setLoading(false);
+        return res;
     } catch (err) {
         console.log(err);
         setLoading(false);
