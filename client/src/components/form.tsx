@@ -3,6 +3,8 @@ import React from "react";
 import TextField from "@mui/material/TextField";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
+import CircularProgress from "@mui/material/CircularProgress";
+import { useRouter } from "next/router";
 import {
     Button,
     FormControl,
@@ -17,6 +19,7 @@ const FormWrapper = styled.div`
     flex-direction: column;
 `;
 const Form = () => {
+    const router = useRouter();
     const [firstName, setFirstName] = React.useState("");
     const [lastName, setLastName] = React.useState("");
     const [departmentId, setDepartmentId] = React.useState(0);
@@ -26,20 +29,24 @@ const Form = () => {
             department_name: "",
         },
     ]);
-    const [loading, setLoading] = React.useState(false);
+    const [loadingPost, setLoadingPost] = React.useState(false);
+    const [loadingDepartments, setLoadingDepartments] = React.useState(true);
     const handleSubmit = async () => {
         const employee_payload = {
             first_name: firstName,
             last_name: lastName,
             department_id: departmentId,
         };
-        await addEmployee(employee_payload, setLoading);
-        console.log(firstName, lastName, departmentId);
+        await addEmployee(employee_payload, setLoadingPost);
+        router.push("/");
     };
 
     React.useEffect(() => {
-        fetchDepartments(setLoading, setDepartments);
+        fetchDepartments(setLoadingDepartments, setDepartments);
     }, []);
+    if (loadingDepartments) {
+        return <CircularProgress />;
+    }
     return (
         <FormWrapper>
             <h1> Add Employee </h1>
@@ -91,8 +98,16 @@ const Form = () => {
                     </Select>
                 </FormControl>
                 {/* submit button from mui */}
-                <Button variant="contained" onClick={handleSubmit}>
-                    Add Employee
+                <Button
+                    variant="contained"
+                    onClick={handleSubmit}
+                    sx={{ height: "40px" }}
+                >
+                    {loadingPost ? (
+                        <CircularProgress size={20} sx={{ color: "white" }} />
+                    ) : (
+                        <>Add Employee</>
+                    )}
                 </Button>
             </Box>
         </FormWrapper>
