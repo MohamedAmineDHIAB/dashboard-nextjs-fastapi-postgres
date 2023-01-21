@@ -30,3 +30,53 @@ export const fetchData = async (
         setLoading(false);
     }
 };
+
+// async function to add employee using axios
+export const addEmployee = async (
+    employee: {
+        first_name: string;
+        last_name: string;
+        department_id: number;
+    },
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+    setLoading(true);
+    await sleep(1000);
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+    const employeesRoute = process.env.NEXT_PUBLIC_POST_EMPLOYEE || "";
+    const employeesEndpoint = baseUrl + employeesRoute;
+    try {
+        await axios.post(employeesEndpoint, employee);
+        setLoading(false);
+    } catch (err) {
+        console.log(err);
+        setLoading(false);
+    }
+};
+
+// async function to fetch departments only
+export const fetchDepartments = async (
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>,
+    setDepartments: React.Dispatch<
+        React.SetStateAction<
+            {
+                id: number;
+                department_name: string;
+            }[]
+        >
+    >
+) => {
+    setLoading(true);
+    await sleep(1000);
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "";
+    const departmentsRoute = process.env.NEXT_PUBLIC_GET_DEPARTMENTS || "";
+    const departmentsEndpoint = baseUrl + departmentsRoute;
+    try {
+        const departmentsRes = await axios.get(departmentsEndpoint);
+        setDepartments(departmentsRes.data);
+        setLoading(false);
+    } catch (err) {
+        console.log(err);
+        setLoading(false);
+    }
+};

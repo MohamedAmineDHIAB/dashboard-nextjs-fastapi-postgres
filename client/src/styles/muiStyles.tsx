@@ -6,7 +6,7 @@ export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.grey[300],
         color: theme.palette.grey[700],
-        fontSize: 16,
+        fontSize: 14,
     },
 }));
 
@@ -36,7 +36,7 @@ export const theme = createTheme({
         },
     },
     typography: {
-        fontFamily: "Ubuntu",
+        fontFamily: "Noto Sans Display",
         fontSize: 16,
     },
     palette: {
